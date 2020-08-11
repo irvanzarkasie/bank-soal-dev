@@ -1,0 +1,31 @@
+import React from 'react';
+import './App.css';
+import NavigationBar from './components/NavigationBar';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import HomePage from './pages/HomePage';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+
+class App extends React.Component {
+  //const state = useSelector(state => state)
+
+  render(){
+    //console.log(state)
+    return (
+      <BrowserRouter>
+        <div className="App">
+          {state.get('authenticationReducer').get('isLoggedIn') ? <NavigationBar/> : ''}
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/about" exact component={AboutPage} />
+            <Route path="/contact" exact component={ContactPage} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
+  
+}
+
+export default App;
