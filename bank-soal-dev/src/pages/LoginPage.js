@@ -1,11 +1,15 @@
 import React from 'react';
+import db from '../firebase';
 
 class LoginPage extends React.Component {
   constructor(props){
     super(props);
     this.state = {
         username: '',
-        password: ''
+        password: '',
+        role: '',
+        isLoggedIn: false,
+        isLoading: false,
     }
 
     this._onChange = this._onChange.bind(this)
@@ -15,12 +19,54 @@ class LoginPage extends React.Component {
 
   _onChange(e){
     this.setState({[e.target.name]: e.target.value})
-    console.log(this.state)
   }
 
-  _onSubmit(e){
+  async _onSubmit(e){
     e.preventDefault();
+
+    const CryptoJS = require("crypto-js");
+
+    this.setState({
+      isLoading: true
+    })
+    
     console.log("Login form submitted!")
+    
+    const username = this.state.username;
+    const password = CryptoJS.SHA256(this.state.password, 'secret').toString();
+    let userData = {};
+
+    const userDataQuery = db.collection("user-accounts").where("username", "==", username)
+    try{
+      const querySnapshot = await userDataQuery.get()
+      userData = querySnapshot.docs[0].data()
+      userData["response"] = "OK"
+    } catch(e) {
+      userData["response"] = "NOK"
+    }
+
+    if(userData.response === "OK"){
+      if(userData.password === password){
+        console.log("Login success")
+        this.setState({
+          username: userData.username,
+          role: userData.role,
+          isLoggedIn: true,
+          isLoading: false
+        })
+      } else {
+        console.log("Login failed")
+        this.setState({
+          isLoading: false
+        })
+      }
+    } else {
+      console.log("Login failed")
+      this.setState({
+        isLoading: false
+      })
+    }
+
   }
 
   render(){
@@ -40,7 +86,7 @@ class LoginPage extends React.Component {
               </div>
               <div>
                 <br/>
-                <button type="submit">Login</button>
+                {this.state.isLoading ? <label>Logging in....</label> : <button type="submit">Login</button> }
               </div>
             </form>
         </div>
