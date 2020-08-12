@@ -35,14 +35,15 @@ class NavigationBar extends React.Component {
   render(){
     return (
       <div className={this.state.isExpandToggled ? "topnav responsive" : "topnav"} id="myTopnav">
+        <a className="icon" onClick={this._onExpand}><i className="fa fa-bars"></i></a>
         <a href="/"><i className="fa fa-home"></i></a>
         <Link to="/about">About</Link>
         {this.props.authenticationState.get('role') === 'admin' ? <Link to="/register">Register</Link> : ''}
         <Link to="/contact">Contact</Link>
-        <a onClick={this._onLogout}>Logout</a>
-        <a className="icon" onClick={this._onExpand}>
-          <i className="fa fa-bars"></i>
+        <a className="icon-logout" onClick={this._onLogout}>
+          <i className="fa fa-sign-out"></i>
         </a>
+        
       </div>
     );
   }

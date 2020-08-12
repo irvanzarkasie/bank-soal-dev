@@ -36,8 +36,7 @@ nav {
 }
 
 .topnav a:hover {
-  background-color: #ddd;
-  color: black;
+  color: #ddd;
 }
 
 .topnav a.active {
@@ -49,9 +48,19 @@ nav {
   display: none;
 }
 
+.topnav .icon-logout {
+  float: right;
+  display: block;
+}
+
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
+    float: left;
+    display: block;
+  }
+
+  .topnav a.icon-logout {
     float: right;
     display: block;
   }
@@ -59,7 +68,7 @@ nav {
 
 @media screen and (max-width: 600px) {
   .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
+  .topnav.responsive .icon-logout {
     position: absolute;
     right: 0;
     top: 0;
