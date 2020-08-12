@@ -64,7 +64,8 @@ class RegisterUserPage extends React.Component {
     if(this.props.authenticationState.get('role') === 'admin'){
       return (
         <div>
-            <h1>User Registration Page</h1>
+            <h1>Daftar Pengguna Baru</h1>
+            <br/>
             <form onSubmit={this._onSubmit}>
               <div>
                 <label>Username</label>

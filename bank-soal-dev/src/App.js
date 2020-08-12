@@ -5,6 +5,7 @@ import ContactPage from './pages/ContactPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterUserPage from './pages/RegisterUserPage';
+import ViewQuestionPage from './pages/ViewQuestionPage';
 import CreateQuestionPage from './pages/CreateQuestionPage';
 import NavigationBar from './components/NavigationBar';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
@@ -33,6 +34,9 @@ class App extends React.Component {
             </Route>
             <Route path="/contact">
               {this.props.authenticationState.get('isLoggedIn') ? <ContactPage/> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/view_question">
+              {this.props.authenticationState.get('isLoggedIn') ? <ViewQuestionPage/> : <Redirect to="/login" />}
             </Route>
             <Route path="/create_question">
               {this.props.authenticationState.get('isLoggedIn') ? <CreateQuestionPage/> : <Redirect to="/login" />}

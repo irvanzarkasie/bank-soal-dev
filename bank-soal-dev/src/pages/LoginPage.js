@@ -61,7 +61,8 @@ class LoginPage extends React.Component {
     } else {
       return (
         <div>
-            <h1>Login Page</h1>
+            <h1>Bank Soal</h1>
+            <br/>
             <form onSubmit={this._onSubmit}>
               <div>
                 <label>Username</label>

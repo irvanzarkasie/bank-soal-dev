@@ -10,21 +10,23 @@ class CreateQustionPage extends React.Component {
     if(this.props.authenticationState.get('role') === 'teacher'){
         return (
             <div className="editor">
-                <h1>Create New Question Page</h1>
+                <h1>Buat Soal Baru</h1>
                 <br/>
-                <CKEditor
-                    onInit={ editor => {
-                        
-                        // Insert the toolbar before the editable area.
-                        editor.ui.getEditableElement().parentElement.insertBefore(
-                            editor.ui.view.toolbar.element,
-                            editor.ui.getEditableElement()
-                        );
-                    } }
-                    onChange={ ( event, editor ) => console.log( { event, editor } ) }
-                    editor={ DecoupledEditor }
-                    data="<p>Create question here</p>"
-                />
+                <div style={{outline: '2px solid black'}}>
+                    <CKEditor
+                        onInit={ editor => {
+                            
+                            // Insert the toolbar before the editable area.
+                            editor.ui.getEditableElement().parentElement.insertBefore(
+                                editor.ui.view.toolbar.element,
+                                editor.ui.getEditableElement()
+                            );
+                        } }
+                        onChange={ ( event, editor ) => console.log( { event, editor } ) }
+                        editor={ DecoupledEditor }
+                        data="<p>Buat soal baru di sini</p><p>Konten dari MS Word dapat di-paste ke sini</p>"
+                    />
+                </div>
             </div>
         );
     } else {

@@ -2,12 +2,31 @@
   text-align: center;
 }
 
+th, td {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+th {
+  text-align: center;
+}
+
 .editor {
   padding-left: 20px;
   padding-right: 20px;
   text-align: center;
   align-items: center;
   justify-content: space-around;
+}
+
+.home-menu {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  border-spacing: 5px;
 }
 
 nav {
@@ -52,7 +71,7 @@ nav {
 }
 
 .topnav a.active {
-  background-color: dimgray;
+  background-color: lightsteelblue;
   color: lightgoldenrodyellow;
 }
 

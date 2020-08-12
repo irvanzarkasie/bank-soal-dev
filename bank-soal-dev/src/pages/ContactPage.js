@@ -5,7 +5,7 @@ class ContactPage extends React.Component {
   render(){
     return (
       <div>
-          <h1>Contact Page</h1>
+          <h1>Hubungi Kami</h1>
       </div>
     );
   }
