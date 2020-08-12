@@ -1,5 +1,8 @@
 import React from 'react';
-import db from '../firebase';
+import {connect} from 'react-redux';
+import {register_user} from '../actions/userRegistrationAction';
+import { bindActionCreators } from 'redux';
+import {Redirect} from 'react-router-dom';
 
 class RegisterUserPage extends React.Component {
   constructor(props){
@@ -10,6 +13,7 @@ class RegisterUserPage extends React.Component {
         password_confirmation: '',
         role: '',
         isLoading: false,
+        isRegistered: false
     }
 
     this._onChange = this._onChange.bind(this)
@@ -21,14 +25,18 @@ class RegisterUserPage extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    return this.props !== nextProps || this.state !== nextState;
+  }
+
   async _onSubmit(e){
     e.preventDefault();
 
-    const CryptoJS = require("crypto-js");
-    
     this.setState({
       isLoading: true
     })
+
+    const CryptoJS = require("crypto-js");
     
     console.log("Register form submitted!")
     
@@ -36,51 +44,25 @@ class RegisterUserPage extends React.Component {
     const password = CryptoJS.SHA256(this.state.password, 'secret').toString();
     const password_confirmation = CryptoJS.SHA256(this.state.password_confirmation, 'secret').toString();
     const role = this.state.role;
+    const registrationResponse = await this.props.register_user({
+      username: username,
+      password: password,
+      password_confirmation: password_confirmation,
+      role: role
+    })
     
-    if(password === password_confirmation){
-      let userData = {};
-      const userDataQuery = db.collection("user-accounts").where("username", "==", username)
-      try{
-        const querySnapshot = await userDataQuery.get()
-        userData = querySnapshot.docs[0].data()
-        userData["response"] = "OK"
-      } catch(e) {
-        userData["response"] = "NOK"
-      }
-  
-      if(userData.response === "OK"){
-        if(userData.username === username){
-          console.log("User already exists")
-          console.log("User registration failed")
-          this.setState({
-            isLoading: false
-          })
-        } else {
-          this.setState({
-            isLoading: false
-          })
-        }
-      } else {
-        console.log("User not exists. Registering user.")
-        const writeData = {
-          username: username,
-          password: password,
-          role: role
-        };
-        const userRegQuery = db.collection("user-accounts").doc()
-        await userRegQuery.set(writeData)
+    console.log("Receive user registration response")
+    console.log(registrationResponse)
 
-        console.log("User registration succeeded")
-        this.setState({
-          isLoading: false
-        })
-      }
+    this.setState({
+      isLoading: false
+    })
 
-    }
   }
 
   render(){
-    return (
+    if(this.props.authenticationState.get('role') === 'admin'){
+      return (
         <div>
             <h1>User Registration Page</h1>
             <form onSubmit={this._onSubmit}>
@@ -110,8 +92,23 @@ class RegisterUserPage extends React.Component {
               </div>
             </form>
         </div>
-    );
+      );
+    } else {
+      return (<Redirect to="/"/>)
+    }
+    
   }
 }
 
-export default RegisterUserPage;
+const mapStateToProps = state => ({
+  userRegistrationState: state.get('userRegistrationReducer'),
+  authenticationState: state.get('authenticationReducer')
+})
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    register_user
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterUserPage);

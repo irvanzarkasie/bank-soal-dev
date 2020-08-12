@@ -1,21 +1,62 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {logout} from '../actions/authenticationAction';
+import {NavLink as Link} from 'react-router-dom';
 
-function NavigationBar() {
+class NavigationBar extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isExpandToggled: false
+    }
+    
+    this._onLogout = this._onLogout.bind(this)
 
-  const style = {
-      color: 'white'
+    this._onExpand = this._onExpand.bind(this)
   }
 
-  return (
-    <nav>
-        <Link style={style} to="/"><h3 className="nav-links">Logo</h3></Link>
-        <ul className="nav-links">
-            <Link style={style} to="/about"><li><h3>About</h3></li></Link>
-            <Link style={style} to="/contact"><li><h3>Contact</h3></li></Link>
-        </ul>
-    </nav>
-  );
+  _onLogout(e){
+
+    this.props.logout()
+
+  }
+
+  _onExpand(){
+    this.setState({
+      isExpandToggled: !this.state.isExpandToggled
+    })
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    return this.state !== nextState;
+  }
+
+  render(){
+    return (
+      <div className={this.state.isExpandToggled ? "topnav responsive" : "topnav"} id="myTopnav">
+        <a href="/"><i className="fa fa-home"></i></a>
+        <Link to="/about">About</Link>
+        {this.props.authenticationState.get('role') === 'admin' ? <Link to="/register">Register</Link> : ''}
+        <Link to="/contact">Contact</Link>
+        <a onClick={this._onLogout}>Logout</a>
+        <a className="icon" onClick={this._onExpand}>
+          <i className="fa fa-bars"></i>
+        </a>
+      </div>
+    );
+  }
+  
 }
 
-export default NavigationBar;
+const mapStateToProps = state => ({
+  authenticationState: state.get('authenticationReducer')
+})
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    logout
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

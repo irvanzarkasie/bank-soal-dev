@@ -1,5 +1,8 @@
 import React from 'react';
-import db from '../firebase';
+import {connect} from 'react-redux';
+import {login} from '../actions/authenticationAction';
+import { bindActionCreators } from 'redux';
+import {Redirect} from 'react-router-dom';
 
 class LoginPage extends React.Component {
   constructor(props){
@@ -21,56 +24,42 @@ class LoginPage extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  async _onSubmit(e){
-    e.preventDefault();
+  shouldComponentUpdate(nextProps, nextState){
+    return this.props !== nextProps || this.state !== nextState;
+  }
 
-    const CryptoJS = require("crypto-js");
+  async _onSubmit(e){
 
     this.setState({
       isLoading: true
     })
-    
+
+    e.preventDefault();
+
     console.log("Login form submitted!")
     
+    const CryptoJS = require("crypto-js");
     const username = this.state.username;
     const password = CryptoJS.SHA256(this.state.password, 'secret').toString();
-    let userData = {};
+    const loginResponse = await this.props.login({
+      username: username,
+      password: password
+    })
 
-    const userDataQuery = db.collection("user-accounts").where("username", "==", username)
-    try{
-      const querySnapshot = await userDataQuery.get()
-      userData = querySnapshot.docs[0].data()
-      userData["response"] = "OK"
-    } catch(e) {
-      userData["response"] = "NOK"
-    }
-
-    if(userData.response === "OK"){
-      if(userData.password === password){
-        console.log("Login success")
-        this.setState({
-          username: userData.username,
-          role: userData.role,
-          isLoggedIn: true,
-          isLoading: false
-        })
-      } else {
-        console.log("Login failed")
-        this.setState({
-          isLoading: false
-        })
-      }
-    } else {
-      console.log("Login failed")
+    if(loginResponse.status === "NOK"){
       this.setState({
         isLoading: false
       })
     }
-
   }
 
   render(){
-    return (
+    if(this.props.authenticationState.get('isLoggedIn')){
+      return (
+        <Redirect to="/" />
+      );
+    } else {
+      return (
         <div>
             <h1>Login Page</h1>
             <form onSubmit={this._onSubmit}>
@@ -90,8 +79,19 @@ class LoginPage extends React.Component {
               </div>
             </form>
         </div>
-    );
+      );
+    }
   }
 }
 
-export default LoginPage;
+const mapStateToProps = state => ({
+  authenticationState: state.get('authenticationReducer')
+})
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    login
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

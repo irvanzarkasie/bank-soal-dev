@@ -5,22 +5,34 @@ import ContactPage from './pages/ContactPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterUserPage from './pages/RegisterUserPage';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import NavigationBar from './components/NavigationBar';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class App extends React.Component {
-  //const state = useSelector(state => state)
-
+  
   render(){
-    //console.log(state)
+
     return (
       <BrowserRouter>
         <div className="App">
+          {this.props.authenticationState.get('isLoggedIn') ? <NavigationBar/> : ''}
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/register" component={RegisterUserPage} />
-            <Route path="/about" exact component={AboutPage} />
-            <Route path="/contact" exact component={ContactPage} />
+            <Route exact path="/">
+              {this.props.authenticationState.get('isLoggedIn') ? <HomePage/> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/login">
+              {this.props.authenticationState.get('isLoggedIn') ? <Redirect to="/" /> : <LoginPage />}
+            </Route>
+            <Route path="/register">
+              {this.props.authenticationState.get('isLoggedIn') ? <RegisterUserPage/> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/about">
+              {this.props.authenticationState.get('isLoggedIn') ? <AboutPage/> : <Redirect to="/login" />}
+            </Route>
+            <Route path="/contact">
+              {this.props.authenticationState.get('isLoggedIn') ? <ContactPage/> : <Redirect to="/login" />}
+            </Route>
           </Switch>
         </div>
       </BrowserRouter>
@@ -29,4 +41,8 @@ class App extends React.Component {
   
 }
 
-export default App;
+const mapStateToProps = state => ({
+  authenticationState: state.get('authenticationReducer')
+})
+
+export default connect(mapStateToProps, null)(App);
