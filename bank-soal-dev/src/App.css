@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.editor {
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
 nav {
   display: flex;
   width: 100%;
@@ -22,13 +30,13 @@ nav {
 
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: whitesmoke;
 }
 
 .topnav a {
   float: left;
   display: block;
-  color: #f2f2f2;
+  color: darkgray;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -36,12 +44,16 @@ nav {
 }
 
 .topnav a:hover {
-  color: #ddd;
+  color: darkgray;
+}
+
+.topnav .home-btn a.active {
+  color: white;
 }
 
 .topnav a.active {
-  background-color: darkturquoise;
-  color: white;
+  background-color: dimgray;
+  color: lightgoldenrodyellow;
 }
 
 .topnav .icon {
