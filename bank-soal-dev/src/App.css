@@ -110,3 +110,39 @@ nav {
     text-align: left;
   }
 }
+
+.ck-editor__editable_inline {
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.dropdown-container {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 25px;
+  float: left;
+  display: block;
+}
+
+.dropdown-container-end {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  float: none;
+  display: block;
+}
+
+.selection-panel {
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px; 
+  margin-left: 15%; 
+  margin-right: 15%;
+  display: block;
+  text-align: left;
+}
+
+.question-submit-btn {
+  margin-top: 5px;
+  margin-bottom: 25px;
+}

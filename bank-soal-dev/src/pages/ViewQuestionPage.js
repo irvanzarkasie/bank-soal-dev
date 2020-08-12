@@ -5,6 +5,7 @@ class ViewQuestionPage extends React.Component {
   render(){
     return (
       <div>
+          <br/>
           <h1>Lihat Soal</h1>
           <br/>
           <h4>No data available</h4>

@@ -6,6 +6,7 @@ class HomePage extends React.Component {
   render(){
     return (
         <div>
+            <br/>
             <h1>Bank Soal</h1>
             <br/>
             <table className="home-menu">
@@ -15,7 +16,7 @@ class HomePage extends React.Component {
                     <Link to="/view_question"><i className="fa fa-folder-open fa-4x"/></Link>
                   </th>
                   <th>
-                    <Link to="/create_question"><i className="fa fa-file-text fa-4x"/></Link>
+                    <Link to="/create_question"><i className="fa fa-file-text fa-3x"/></Link>
                   </th>
                 </tr>
                 <tr>

@@ -10,6 +10,8 @@ import CreateQuestionPage from './pages/CreateQuestionPage';
 import NavigationBar from './components/NavigationBar';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'semantic-ui-css/semantic.min.css';
 
 class App extends React.Component {
   

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {login} from '../actions/authenticationAction';
 import { bindActionCreators } from 'redux';
 import {Redirect} from 'react-router-dom';
+import Toast from 'react-bootstrap/Toast';
 
 class LoginPage extends React.Component {
   constructor(props){
@@ -13,6 +14,7 @@ class LoginPage extends React.Component {
         role: '',
         isLoggedIn: false,
         isLoading: false,
+        showFailedToast: false 
     }
 
     this._onChange = this._onChange.bind(this)
@@ -48,9 +50,21 @@ class LoginPage extends React.Component {
 
     if(loginResponse.status === "NOK"){
       this.setState({
-        isLoading: false
+        isLoading: false,
+        showFailedToast: true
       })
     }
+  }
+
+  _showFailedToast(){
+    return (
+      <Toast onClose={() => this.setState({showFailedToast: false})} show={this.state.showFailedToast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="mr-auto">Login Failed</strong>
+          </Toast.Header>
+          <Toast.Body>Failed to login to your account.</Toast.Body>
+      </Toast>
+    )
   }
 
   render(){
@@ -61,6 +75,8 @@ class LoginPage extends React.Component {
     } else {
       return (
         <div>
+            {this.state.showFailedToast ? this._showFailedToast() : ''}
+            <br/>
             <h1>Bank Soal</h1>
             <br/>
             <form onSubmit={this._onSubmit}>
@@ -69,6 +85,7 @@ class LoginPage extends React.Component {
                 <br/>
                 <input type="text" name="username" value={this.state.username} onChange={this._onChange} />
               </div>
+              <br/>
               <div>
                 <label>Password</label>
                 <br/>
