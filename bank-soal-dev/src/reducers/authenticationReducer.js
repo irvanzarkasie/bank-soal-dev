@@ -4,8 +4,8 @@ import * as types from '../actions/actionTypes';
 const user = JSON.parse(localStorage.getItem('user'))
 const initialState = user ? Immutable.fromJS(user) : Immutable.fromJS({
   username: '',
-  role: '',
-  isLoggedIn: false,
+  role: 'teacher',
+  isLoggedIn: true,
   isLoading: false
 });
 

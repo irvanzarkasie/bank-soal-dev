@@ -113,11 +113,6 @@ nav {
   }
 }
 
-.ck-editor__editable_inline {
-  min-height: 200px;
-  max-height: 200px;
-}
-
 .dropdown-container {
   margin-top: 5px;
   margin-bottom: 5px;

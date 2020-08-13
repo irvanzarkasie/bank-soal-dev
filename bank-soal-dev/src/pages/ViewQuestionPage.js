@@ -3,6 +3,13 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {fetch_question} from '../actions/questionAction';
 import ReactHtmlParser from 'react-html-parser';
+import { Segment } from 'semantic-ui-react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { Button, Card, Image } from 'semantic-ui-react'
+import CKEditor from '@ckeditor/ckeditor5-react';
+import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 class ViewQuestionPage extends React.Component {
   constructor(props){
@@ -48,28 +55,73 @@ class ViewQuestionPage extends React.Component {
 
   _renderQuestionList(){
     return (
-      <table style={{display: 'block', width: '100%', overflowX: 'auto'}}>
-        <thead>
-          <tr>
-            <th>Kelas</th>
-            <th>Mata Pelajaran</th>
-            <th>Tingkat Kesulitan</th>
-            <th>Pertanyaan</th>
-          </tr>
-        </thead>
-        <tbody>
+      
+      <Segment.Group raised style={{margin: '5%'}}>
+        <Row xs={1} sm={1} md={2} lg={3} xl={4} style={{padding: '3%'}}>
         {this.state.questionList.map(data => {
           return (
-            <tr key={data.id}>
-              <td>{data.data.class}</td>
-              <td>{data.data.subject}</td>
-              <td>{data.data.difficulty}</td>
-              <td>{ReactHtmlParser(data.data.question)}</td>
-            </tr>
+            <Col key={data.id} >
+              
+              <Card style={{margin: '2%'}}>
+                <Card.Content>
+                  <Card.Header style={{textAlign: 'left'}}>Kelas {data.data.class}</Card.Header>
+                  <Card.Header style={{textAlign: 'left'}}>{data.data.subject}</Card.Header>
+                  <Card.Header style={{textAlign: 'left'}}>Kesulitan: {data.data.difficulty}</Card.Header>
+                </Card.Content>
+                <div style={{padding: '5%', textAlign: 'left'}}>
+                  <b>Pertanyaan</b>
+                  <CKEditor style={{minHeight: '50px', maxHeight: '50px'}}
+                      editor={ DecoupledEditor }
+                      config={{
+                        toolbar: ["heading", "|", "undo", "redo", "bold", "italic", "underline"]
+                      }}
+                      data={data.data.question}
+                      onInit={ editor => {
+                          editor.ui.getEditableElement().parentElement.insertBefore(
+                            editor.ui.view.toolbar.element,
+                            editor.ui.getEditableElement()
+                          );
+                      } }
+                      onChange={ ( event, editor ) => {
+                          const data = editor.getData();
+                      } }
+                      onBlur={ ( event, editor ) => {
+                      } }
+                      onFocus={ ( event, editor ) => {
+                      } }
+                  />
+                </div>
+                <div style={{padding: '5%', textAlign: 'left'}}>
+                  <b>Jawaban</b>
+                  <CKEditor style={{minHeight: '50px', maxHeight: '50px'}}
+                      editor={ DecoupledEditor }
+                      config={{
+                        toolbar: ["heading", "|", "undo", "redo", "bold", "italic", "underline"]
+                      }}
+                      data={data.data.answer}
+                      onInit={ editor => {
+                          editor.ui.getEditableElement().parentElement.insertBefore(
+                            editor.ui.view.toolbar.element,
+                            editor.ui.getEditableElement()
+                          );
+                      } }
+                      onChange={ ( event, editor ) => {
+                          const data = editor.getData();
+                      } }
+                      onBlur={ ( event, editor ) => {
+                      } }
+                      onFocus={ ( event, editor ) => {
+                      } }
+                  />
+                </div>
+              </Card>
+              
+            </Col>
           )
         })}
-        </tbody>
-      </table>
+        </Row>
+      </Segment.Group>
+
     )
   }
 
@@ -78,7 +130,6 @@ class ViewQuestionPage extends React.Component {
       <div>
           <br/>
           <h1>Lihat Soal</h1>
-          <br/>
           {this.state.isFetched ? this._renderQuestionList() : <h4>Mengambil data...</h4>}
       </div>
     );

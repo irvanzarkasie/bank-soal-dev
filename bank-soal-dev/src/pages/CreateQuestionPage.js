@@ -110,7 +110,7 @@ class CreateQustionPage extends React.Component {
                 </div>
                 <div style={{outline: '1px solid black', padding: '10px', marginTop: '10px', marginBottom: '10px', marginLeft: '15%', marginRight: '15%'}}>
                     <h3>Pertanyaan</h3>
-                    <CKEditor
+                    <CKEditor style={{minHeight: '200px', maxHeight: '200px'}}
                         onInit={ editor => {
                             
                             // Insert the toolbar before the editable area.
@@ -130,7 +130,7 @@ class CreateQustionPage extends React.Component {
                 <br/>
                 <div style={{outline: '1px solid black', padding: '10px', marginTop: '10px', marginBottom: '10px', marginLeft: '15%', marginRight: '15%'}}>
                     <h3>Jawaban</h3>
-                    <CKEditor
+                    <CKEditor style={{minHeight: '200px', maxHeight: '200px'}}
                         onInit={ editor => {
                             
                             // Insert the toolbar before the editable area.
