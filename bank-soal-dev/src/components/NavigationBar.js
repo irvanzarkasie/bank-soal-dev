@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {logout} from '../actions/authenticationAction';
-import {NavLink as Link} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 
 class NavigationBar extends React.Component {
   constructor(props){
@@ -35,14 +35,21 @@ class NavigationBar extends React.Component {
   render(){
     return (
       <div className={this.state.isExpandToggled ? "topnav responsive" : "topnav"} id="myTopnav">
-        <a className="icon" onClick={this._onExpand}><i className="fa fa-bars"></i></a>
-        <a href="/"><i className="fa fa-home"></i></a>
-        {this.props.authenticationState.get('role') === 'admin' ? <Link to="/register">Daftarkan Pengguna</Link> : ''}
-        <Link to="/about">Tentang</Link>
-        <Link to="/contact">Hubungi Kami</Link>
-        <a className="icon-logout" onClick={this._onLogout}>
-          <i className="fa fa-sign-out"></i>
-        </a>
+        <a style={{float: 'left'}}  className="icon" onClick={this._onExpand}><i className="fa fa-bars"></i></a>
+        <Link onClick={this._onExpand} style={{float: 'left'}} to="/"><i className="fa fa-home"></i></Link>
+        {
+          (this.props.authenticationState.get('role') === 'admin') ? 
+            <NavLink onClick={this._onExpand} style={{float: 'left'}} to="/register">
+              {(this.state.isExpandToggled) ? <i className="fas fa-user-plus" aria-hidden="true"></i> : "Daftarkan Pengguna"}
+            </NavLink> : ''
+        }
+        <NavLink onClick={this._onExpand} style={{float: 'left'}} to="/about">
+          {(this.state.isExpandToggled) ? <i className="fa fa-info" aria-hidden="true"></i> : "Tentang"}
+        </NavLink>
+        <NavLink onClick={this._onExpand} style={{float: 'left'}} to="/contact">
+          {(this.state.isExpandToggled) ? <i className="fa fa-phone"></i> : "Hubungi Kami"}
+        </NavLink>
+        <Link style={{float: 'none'}} className="icon-logout" onClick={this._onLogout} to="" style={{color: 'red'}}><i className="fa fa-sign-out fa-1x"></i></Link>
         
       </div>
     );

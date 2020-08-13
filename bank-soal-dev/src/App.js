@@ -20,7 +20,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-          {this.props.authenticationState.get('isLoggedIn') ? <NavigationBar/> : ''}
+          {this.props.authenticationState.get('isLoggedIn') ? <div id="navigation-bar"><NavigationBar /></div> : ''}
           <Switch>
             <Route exact path="/">
               {this.props.authenticationState.get('isLoggedIn') ? <HomePage/> : <Redirect to="/login" />}

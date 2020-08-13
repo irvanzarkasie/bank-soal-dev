@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {fetch_question} from '../actions/questionAction';
-import ReactHtmlParser from 'react-html-parser';
 import { Segment } from 'semantic-ui-react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -56,8 +55,8 @@ class ViewQuestionPage extends React.Component {
   _renderQuestionList(){
     return (
       
-      <Segment.Group raised style={{margin: '5%'}}>
-        <Row xs={1} sm={1} md={2} lg={3} xl={4} style={{padding: '3%'}}>
+      
+        <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{margin: '2%'}}>
         {this.state.questionList.map(data => {
           return (
             <Col key={data.id} >
@@ -73,7 +72,7 @@ class ViewQuestionPage extends React.Component {
                   <CKEditor style={{minHeight: '50px', maxHeight: '50px'}}
                       editor={ DecoupledEditor }
                       config={{
-                        toolbar: ["heading", "|", "undo", "redo", "bold", "italic", "underline"]
+                        toolbar: []
                       }}
                       data={data.data.question}
                       onInit={ editor => {
@@ -83,7 +82,7 @@ class ViewQuestionPage extends React.Component {
                           );
                       } }
                       onChange={ ( event, editor ) => {
-                          const data = editor.getData();
+                          //const data = editor.getData();
                       } }
                       onBlur={ ( event, editor ) => {
                       } }
@@ -96,7 +95,7 @@ class ViewQuestionPage extends React.Component {
                   <CKEditor style={{minHeight: '50px', maxHeight: '50px'}}
                       editor={ DecoupledEditor }
                       config={{
-                        toolbar: ["heading", "|", "undo", "redo", "bold", "italic", "underline"]
+                        toolbar: []
                       }}
                       data={data.data.answer}
                       onInit={ editor => {
@@ -106,7 +105,7 @@ class ViewQuestionPage extends React.Component {
                           );
                       } }
                       onChange={ ( event, editor ) => {
-                          const data = editor.getData();
+                          //const data = editor.getData();
                       } }
                       onBlur={ ( event, editor ) => {
                       } }
@@ -120,7 +119,7 @@ class ViewQuestionPage extends React.Component {
           )
         })}
         </Row>
-      </Segment.Group>
+      
 
     )
   }
@@ -130,7 +129,7 @@ class ViewQuestionPage extends React.Component {
       <div>
           <br/>
           <h1>Lihat Soal</h1>
-          {this.state.isFetched ? this._renderQuestionList() : <h4>Mengambil data...</h4>}
+          {this.state.isFetched ? <Container>{this._renderQuestionList()}</Container> : <h4>Mengambil data...</h4>}
       </div>
     );
   }
